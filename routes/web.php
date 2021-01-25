@@ -14,4 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::resource('/', 'IndexController' );
+Route::resource('/', 'IndexController', [
+    'only'=>['index'],
+    'names'=>['index'=>'home'],
+] );
+
+
