@@ -28,8 +28,7 @@ class SiteController extends Controller
     protected function renderOutput()
     {
         $menu = $this->getMenu();
-
-        $navigation = view(env('THEME') . '.navigation')->render();
+        $navigation = view(env('THEME') . '.navigation')->with('menu', $menu)->render();
         $this->vars =  Arr::add( $this->vars, 'navigation', $navigation);
         return view($this->template)->with($this->vars);
     }
@@ -42,13 +41,11 @@ class SiteController extends Controller
                if($item->parent == 0){
                    $m->add($item->title, $item->path)->id($item->id);
                }else{
-                   if($m->find($item->parent)){
-                       $m->find($item->parent)->add($item->title, $item->path)->id($item->id);
-                   }
+                   if($m->find($item->parent))
+                   $m->find($item->parent)->add($item->title, $item->path)->id($item->id);
                }
            }
         });
-       dd($mBuild);
-        return $mBuilder;
+        return $mBuild;
     }
 }

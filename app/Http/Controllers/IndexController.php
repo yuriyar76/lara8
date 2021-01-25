@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use App\Repositories\MenuRepo;
+use App\Repositories\SliderRepo;
+use Config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class IndexController extends SiteController
 {
-    public function __construct()
+    public function __construct(SliderRepo $s_rep)
     {
         parent::__construct(new MenuRepo(new Menu()));
         $this->bar = 'right';
+        $this->s_rep = $s_rep;
         $this->template = env('THEME') . '.index';
     }
 
@@ -23,6 +27,9 @@ class IndexController extends SiteController
      */
     public function index()
     {
+        $sliderItems = $this->getSliders();
+        $slider = view(env('THEME').'.slider')->with('sliders', $sliderItems )->render();
+        $this->vars =  Arr::add( $this->vars, 'slider', $slider);
         return $this->renderOutput();
     }
 
@@ -90,5 +97,18 @@ class IndexController extends SiteController
     public function destroy($id)
     {
         //
+    }
+
+    private function getSliders()
+    {
+        $sliders =  $this->s_rep->get();
+        if($sliders->isEmpty()) return false;
+            $sliders->transform(function($item, $key){
+            $item->img = Config::get('settings.slider_path') . '/' . $item->img;
+            return $item;
+        });
+        //dd($sliders);
+
+        return $sliders;
     }
 }
