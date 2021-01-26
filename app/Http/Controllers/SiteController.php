@@ -23,6 +23,7 @@ class SiteController extends Controller
     public function __construct(MenuRepo $m_rep)
     {
         $this->m_rep = $m_rep;
+
     }
 
     protected function renderOutput()

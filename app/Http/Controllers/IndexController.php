@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use App\Repositories\MenuRepo;
+use App\Repositories\PortfolioRepo;
 use App\Repositories\SliderRepo;
 use Config;
 use Illuminate\Database\Eloquent\Model;
@@ -12,11 +13,13 @@ use Illuminate\Support\Arr;
 
 class IndexController extends SiteController
 {
-    public function __construct(SliderRepo $s_rep)
+    public function __construct(SliderRepo $s_rep, PortfolioRepo $p_rep)
     {
         parent::__construct(new MenuRepo(new Menu()));
         $this->bar = 'right';
         $this->s_rep = $s_rep;
+        $this->p_rep = $p_rep;
+
         $this->template = env('THEME') . '.index';
     }
 
@@ -27,77 +30,16 @@ class IndexController extends SiteController
      */
     public function index()
     {
+        $portfolios = $this->getPortfolio();
+        $content = view(env('THEME').'.content')->with('portfolios', $portfolios )->render();
+        $this->vars =  Arr::add( $this->vars, 'content', $content);
         $sliderItems = $this->getSliders();
         $slider = view(env('THEME').'.slider')->with('sliders', $sliderItems )->render();
         $this->vars =  Arr::add( $this->vars, 'slider', $slider);
         return $this->renderOutput();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 
     private function getSliders()
     {
@@ -108,7 +50,14 @@ class IndexController extends SiteController
             return $item;
         });
         //dd($sliders);
-
         return $sliders;
+    }
+
+    private function getPortfolio()
+    {
+        $portfolio = $this->p_rep->get('*', Config::get('settings.home_portfolio_count'));
+
+        return $portfolio;
+
     }
 }
