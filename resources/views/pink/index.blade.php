@@ -8,3 +8,9 @@
 @section('content')
     {!! $content !!}
 @endsection
+@section('bar')
+    {!! $rightBar !!}
+@endsection
+@section('copy')
+    {!! $copyright !!}
+@endsection

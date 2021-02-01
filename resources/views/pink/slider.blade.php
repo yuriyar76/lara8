@@ -1,5 +1,5 @@
     @if(count($sliders))
-
+    <? //dd($sliders);?>
 <div id="slider-cycle" class="slider cycle no-responsive slider_cycle group" style="height:485px;">
     <ul class="slider">
         @set($i,1)

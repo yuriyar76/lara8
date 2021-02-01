@@ -16,9 +16,12 @@ class SiteController extends Controller
     protected $m_rep; // репозиторий для хранения объекта меню
     protected $template; // шаблон
     protected $vars = [];
-    protected $bar=false; // признак сайдбара на странице
+    protected $bar = false; // признак сайдбара на странице
     protected $contentRightBar = false; // данные правого сайдбара
     protected $contentLeftBar = false; // данные левого сайдбара
+    protected $keywords;
+    protected $meta_desc;
+    protected $title;
 
     public function __construct(MenuRepo $m_rep)
     {
@@ -31,6 +34,17 @@ class SiteController extends Controller
         $menu = $this->getMenu();
         $navigation = view(env('THEME') . '.navigation')->with('menu', $menu)->render();
         $this->vars =  Arr::add( $this->vars, 'navigation', $navigation);
+        $this->vars =  Arr::add( $this->vars, 'bar', $this->bar);
+        if($this->contentRightBar){
+            $rightBar =  view(env('THEME') . '.rightBar')->with('content_rightbar', $this->contentRightBar)->render();
+            $this->vars =  Arr::add( $this->vars, 'rightBar', $rightBar);
+        }
+        $copyright = view(env('THEME') . '.copyright')->render();
+        $this->vars =  Arr::add( $this->vars, 'copyright', $copyright);
+
+        $this->vars =  Arr::add( $this->vars, 'keywords', $this->keywords);
+        $this->vars =  Arr::add( $this->vars, 'meta_desc', $this->meta_desc);
+        $this->vars =  Arr::add( $this->vars, 'title', $this->title);
         return view($this->template)->with($this->vars);
     }
 
@@ -49,4 +63,6 @@ class SiteController extends Controller
         });
         return $mBuild;
     }
+
+
 }

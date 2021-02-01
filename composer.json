@@ -15,7 +15,8 @@
         "laravel/framework": "^7.29",
         "laravel/tinker": "^2.5",
         "laravel/ui": "2.4",
-        "lavary/laravel-menu": "^1.8"
+        "lavary/laravel-menu": "^1.8",
+      "ext-json": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8",
