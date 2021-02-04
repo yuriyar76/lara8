@@ -13,6 +13,7 @@ class SiteController extends Controller
     protected $p_rep; // репозиторий для хранения объекта портфолио
     protected $s_rep; // репозиторий для хранения объекта слайдер
     protected $a_rep; // репозиторий для хранения объекта статьи
+    protected $c_rep; // репозиторий комментов
     protected $m_rep; // репозиторий для хранения объекта меню
     protected $template; // шаблон
     protected $vars = [];

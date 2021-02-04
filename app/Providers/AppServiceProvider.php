@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,5 +29,9 @@ class AppServiceProvider extends ServiceProvider
            list($name, $val) = explode(',', $exp );
            return "<?php $name = $val; ?>";
        });
+        Paginator::defaultView('vendor.pagination.semantic-ui');
+
+        Paginator::defaultSimpleView('vendor.pagination.simple-default');
+
     }
 }
