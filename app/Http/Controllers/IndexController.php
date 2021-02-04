@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\Menu;
+use App\Models\Portfolio;
+use App\Models\Slider;
 use App\Repositories\ArticlesRepo;
 use App\Repositories\MenuRepo;
 use App\Repositories\PortfolioRepo;
@@ -14,14 +17,13 @@ use Illuminate\Support\Arr;
 
 class IndexController extends SiteController
 {
-    public function __construct(SliderRepo $s_rep, PortfolioRepo $p_rep, ArticlesRepo $a_rep)
+    public function __construct()
     {
         parent::__construct(new MenuRepo(new Menu()));
+        $this->s_rep = new SliderRepo(new Slider());
+        $this->p_rep = new PortfolioRepo(new Portfolio());
+        $this->a_rep = new ArticlesRepo(new Article());
         $this->bar = 'right';
-        $this->s_rep = $s_rep;
-        $this->p_rep = $p_rep;
-        $this->a_rep = $a_rep;
-
         $this->template = env('THEME') . '.index';
     }
 
@@ -44,6 +46,8 @@ class IndexController extends SiteController
         $articles = $this->getArticles();
         //dd($articles);
         $this->contentRightBar = view(env('THEME') . '.indexBar')->with('articles', $articles )->render();
+        $epilog = view(env('THEME') . '.epilog')->render();
+        $this->vars =  Arr::add( $this->vars, 'epilog', $epilog);
         return $this->renderOutput();
     }
 
