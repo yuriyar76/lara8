@@ -4,6 +4,7 @@ namespace App\Providers;
 
 
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -32,6 +33,10 @@ class AppServiceProvider extends ServiceProvider
         Paginator::defaultView('vendor.pagination.semantic-ui');
 
         Paginator::defaultSimpleView('vendor.pagination.simple-default');
+
+       /* DB::listen(function ($query){
+            echo "<h2>{$query->sql}</h2>";
+        });*/
 
     }
 }

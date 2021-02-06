@@ -42,7 +42,7 @@
                                      </div>
                                  </div>
                                  <h4><a href="{{ route('portfolios.show', ['alias' => $item->alias]) }}">{{ $item->title }}</a></h4>
-                                 <p>{{ $item->desc }} [...]
+                                 <p>{{ Str::limit($item->desc, 120) }} [...]
                              </div>
 
                      @endforeach

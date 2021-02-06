@@ -63,14 +63,16 @@ class ArticlesController extends SiteController
 
     public function getPortfolios($take){
         $portfolios = $this->p_rep->get('*', $take);
-        dump($portfolios);
+        //dump($portfolios);
         return $portfolios;
         //dd($articles);
     }
 
     public function getComments($take){
         $comments = $this->c_rep->get('*', $take);
-        dump($comments);
+        if($comments){
+            $comments->load('article','user');   // подгрузка данных из связанных моделей
+        }
         return $comments;
     }
 }
