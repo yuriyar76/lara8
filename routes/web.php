@@ -31,6 +31,6 @@ Route::resource('articles', 'ArticlesController', [
     ]
 ]);
 
-Route::get('articles/cat/{cat_alias?}', 'ArticleController@index')->name('articlesCat');
+Route::get('articles/cat/{cat_alias?}', 'ArticlesController@index')->name('articlesCat');
 
 

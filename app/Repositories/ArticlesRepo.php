@@ -12,4 +12,15 @@ class ArticlesRepo extends Repo
     {
         $this->model = $article;
     }
+    public function one($alias, $attr = []){
+
+        $article = parent::one($alias, $attr);
+        $article->load('user', 'category');
+        if($article && $attr){
+            $article->load('comment');
+            $article->comment->load('user');
+        }
+
+        return $article;
+    }
 }

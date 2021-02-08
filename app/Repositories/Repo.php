@@ -8,18 +8,15 @@ use Illuminate\Support\Facades\Config;
 abstract class Repo
 {
   protected $model = false;
-  public function get($select = '*', $take=false, $pagination = false)
+  public function get($select = '*', $take=false, $pagination = false, $where=false)
   {
       $builder = $this->model->select($select);
       if($take) $builder->take($take);
-
+      if($where) $builder->where($where[0], $where[1]);
       if($pagination){
           return $this->check($builder->paginate(Config::get('settings.paginate')));
       }
-
       return $this->check($builder->get());
-
-
   }
 
     protected function check($result)
@@ -38,6 +35,11 @@ abstract class Repo
         //dd($result);
         return $result;
 
+    }
+
+    public function one($alias, $attr=[]){
+      $builder =  $this->model->where('alias', $alias)->first();
+      return $builder;
     }
 
 }
