@@ -6,9 +6,10 @@
     <meta charset="UTF-8" />
     <!-- this line will appear only if the website is visited with an iPad -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.2, user-scalable=yes" />
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ ($title) ? $title : 'Home page' }}</title>
-
+    <meta name="description" content="{{ $meta_desc }}">
+    <meta name="keywords" content="{{ $keywords }}">
     <!-- [favicon] begin -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset(env('THEME')) }}/images/favicon.ico" />
     <link rel="icon" type="image/x-icon" href="{{ asset(env('THEME')) }}/images/favicon.ico" />

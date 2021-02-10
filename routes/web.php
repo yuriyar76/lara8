@@ -19,7 +19,7 @@ Route::resource('/', 'IndexController', [
     'names'=>['index'=>'home'],
 ] );
 
-Route::resource('portfolios', 'PortfolioController', [
+Route::resource('portfolios', 'PortfoliosController', [
     'parameters' => [
         'portfolios'=>'alias'
     ]
@@ -30,6 +30,8 @@ Route::resource('articles', 'ArticlesController', [
         'articles'=>'alias'
     ]
 ]);
+
+Route::resource('comment', 'CommentController', ['only'=>['store']]);
 
 Route::get('articles/cat/{cat_alias?}', 'ArticlesController@index')->name('articlesCat');
 

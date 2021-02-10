@@ -1,5 +1,6 @@
 <?
    //dump($items);
+   //exit();
 ?>
 @if(!empty($items))
 @foreach($items as $item)
@@ -7,7 +8,7 @@
     <div id="comment-{{ $item->id }}" class="comment-container">
         <div class="comment-author vcard">
             <img alt="" src="{{ asset(env('THEME')) }}/images/avatar/unknow.png" class="avatar" height="75" width="75" />
-            <cite class="fn">{{ ($item->user->name)? $item->user->name : $item->name }}</cite>
+            <cite class="fn">{{ ($item->name)?$item->name : $item->user->name }}</cite>
         </div>
         <!-- .comment-author .vcard -->
         <div class="comment-meta commentmetadata">

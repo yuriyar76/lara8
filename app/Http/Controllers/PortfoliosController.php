@@ -2,18 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Menu;
+use App\Models\Portfolio;
+use App\Repositories\MenuRepo;
+use App\Repositories\PortfolioRepo;
+use Arr;
 use Illuminate\Http\Request;
 
-class PortfolioController extends Controller
+class PortfoliosController extends SiteController
 {
+
+    public function __construct()
+    {
+        parent::__construct(new MenuRepo(new Menu()));
+        $this->p_rep = new PortfolioRepo(new Portfolio());
+
+        $this->template = env('THEME') . '.portfolios';
+    }
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        //
+        $epilog = view(env('THEME') . '.epilog')->render();
+        $this->vars =  Arr::add( $this->vars, 'epilog', $epilog);
+        $this->bar = 'no';
+        $this->keywords = 'Портфолио';
+        $this->meta_desc = 'Портфолио';
+        $this->title = 'Портфолио';
+        $portfolios = $this->getPortfolios();
+        $content = view(env('THEME') . '.portfolios_content')->with('portfolios', $portfolios)->render();
+        $this->vars =  Arr::add( $this->vars, 'content', $content);
+        return $this->renderOutput();
     }
 
     /**
@@ -43,7 +65,7 @@ class PortfolioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($alias=false)
     {
         //
     }
@@ -80,5 +102,15 @@ class PortfolioController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    protected function getPortfolios()
+    {
+        $portfolios = $this->p_rep->get('*', false, true);
+        if($portfolios){
+            $portfolios->load('filter');
+        }
+
+        return $portfolios;
     }
 }

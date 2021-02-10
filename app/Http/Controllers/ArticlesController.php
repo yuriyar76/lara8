@@ -34,13 +34,20 @@ class ArticlesController extends SiteController
      */
     public function index($get_cat=false)
     {
-        $this->keywords = 'Pink rio articles';
-        $this->meta_desc = 'Articles page';
-        $this->title = 'Pink Rio | Articles';
+
         $this->bar = 'right';
         $epilog = view(env('THEME') . '.epilog')->render();
         $this->vars =  Arr::add( $this->vars, 'epilog', $epilog);
         $articles = $this->getArticles($get_cat);
+
+        $this->keywords = 'Pink rio articles';
+        $this->meta_desc = 'Articles page';
+        $this->title = 'Pink Rio | Articles';
+        if ($get_cat){
+             $this->keywords = $articles[0]->category->keywords;
+             $this->meta_desc = $articles[0]->category->meta_desc;
+             $this->title = $articles[0]->category->title;
+         }
         $content = view(env('THEME') . '.articles_content')->with('articles', $articles )->render();
         $this->vars =  Arr::add( $this->vars, 'content', $content);
         $comments = $this->getComments(Config::get('settings.recent_comments'));
@@ -59,7 +66,8 @@ class ArticlesController extends SiteController
             $where = ['category_id', $id];
            // dump($id);
         }
-        $articles = $this->a_rep->get(['id','user_id', 'category_id', 'title', 'alias', 'img', 'desc', 'created_at'], false, true, $where );
+        $articles = $this->a_rep->get(['id','user_id', 'category_id', 'title', 'alias',
+            'img', 'desc', 'created_at', 'keywords', 'meta_desc'], false, true, $where );
         if($articles){
            $articles->load('user', 'category', 'comment');   // подгрузка данных из связанных моделей
         }
@@ -84,9 +92,7 @@ class ArticlesController extends SiteController
     }
 
     public function show($alias=false){
-        $this->keywords = 'Pink rio article';
-        $this->meta_desc = 'Article page';
-        $this->title = 'Pink Rio | Article';
+
         $this->bar = 'right';
         $epilog = view(env('THEME') . '.epilog')->render();
         $this->vars =  Arr::add( $this->vars, 'epilog', $epilog);
@@ -95,6 +101,10 @@ class ArticlesController extends SiteController
         if($article){
             $article->img = json_decode( $article->img);
         }
+        $this->keywords = $article->keywords;
+        $this->meta_desc =  $article->meta_desc;
+        $this->title = $article->title;
+
         //dump($article->comment->groupBy('parent_id'));
         $content = view(env('THEME') . '.article_content')->with('article', $article )->render();
         $this->vars =  Arr::add( $this->vars, 'content', $content);

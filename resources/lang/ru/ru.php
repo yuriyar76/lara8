@@ -7,5 +7,6 @@ return [
     'no_articles' => 'Статей нет!',
     'recent_comments' => 'Последние комментарии',
     'read_more' => 'Подробнее',
-    'recent_post' => 'Последние работы'
+    'recent_post' => 'Последние работы',
+    'view_portfolio' => 'Смотреть портфолио'
 ];
