@@ -1,7 +1,5 @@
 @extends(env('THEME').'.layouts.site')
-@section('epilog')
-    {!! $epilog !!}
-@endsection
+
 @section('navigation')
     {!! $navigation !!}
 @endsection

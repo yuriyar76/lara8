@@ -8,5 +8,12 @@ return [
     'recent_comments' => 'Последние комментарии',
     'read_more' => 'Подробнее',
     'recent_post' => 'Последние работы',
-    'view_portfolio' => 'Смотреть портфолио'
+    'view_portfolio' => 'Смотреть портфолио',
+    'Skills' => 'Стек инструментов',
+    'Customer' => 'Заказчик',
+    'Year' => 'Год',
+    'Other_Projects' => 'Другие проекты',
+    'Location' => 'Адрес',
+    'Phone' => 'Телефон',
+
 ];

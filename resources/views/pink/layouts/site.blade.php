@@ -64,7 +64,7 @@
 <!-- END HEAD -->
 
 <!-- START BODY -->
-<body class="no_js responsive {{ Route::currentRouteName() === 'home' ? 'page-template-home-php' : '' }} stretched">
+<body class="no_js responsive {{ (Route::currentRouteName() === 'home' || Route::currentRouteName() === 'portfolios.index') ? 'page-template-home-php' : '' }} stretched">
 
 <!-- START BG SHADOW -->
 <div class="bg-shadow">
@@ -79,15 +79,15 @@
 
                 <!-- START LOGO -->
                 <div id="logo" class="group">
-                    <a href="index.html" title="Pink Rio"><img src="{{ asset(env('THEME')) }}/images/logo.png" title="Pink Rio" alt="Pink Rio" /></a>
+                    <a href="{{ route('home') }}" title="Pink Rio"><img src="{{ asset(env('THEME')) }}/images/{{ $logo }}"
+                                                                        title="" alt="" /></a>
                 </div>
                 <!-- END LOGO -->
 
                 <div id="sidebar-header" class="group">
-                    @yield('epilog')
+                    {!! $slogan !!}
                 </div>
                 <div class="clearer"></div>
-
                 <hr />
 
                 <!-- START MAIN NAVIGATION -->
@@ -98,6 +98,18 @@
             </div>
 
         </div>
+
+        <div id="page-meta">
+            <div class="inner group">
+                @if(Route::currentRouteName() === 'portfolios.index')
+                    {!! $portfolio_title !!}
+                @endif
+                @if(Route::currentRouteName() === 'contacts')
+                   {!! $contacts_title !!}
+                @endif
+            </div>
+        </div>
+
         <!-- END HEADER -->
 
         <!-- START SLIDER -->

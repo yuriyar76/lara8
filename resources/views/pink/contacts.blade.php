@@ -7,8 +7,9 @@
     {!! $content !!}
 @endsection
 @section('bar')
-    {!! $rightBar ?? '' !!}
+    {!! $leftBar ?? '' !!}
 @endsection
 @section('copy')
     {!! $copyright !!}
 @endsection
+

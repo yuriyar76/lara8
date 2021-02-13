@@ -7,6 +7,7 @@ use App\Models\Portfolio;
 use App\Repositories\MenuRepo;
 use App\Repositories\PortfolioRepo;
 use Arr;
+use Config;
 use Illuminate\Http\Request;
 
 class PortfoliosController extends SiteController
@@ -16,7 +17,6 @@ class PortfoliosController extends SiteController
     {
         parent::__construct(new MenuRepo(new Menu()));
         $this->p_rep = new PortfolioRepo(new Portfolio());
-
         $this->template = env('THEME') . '.portfolios';
     }
     /**
@@ -26,13 +26,12 @@ class PortfoliosController extends SiteController
      */
     public function index()
     {
-        $epilog = view(env('THEME') . '.epilog')->render();
-        $this->vars =  Arr::add( $this->vars, 'epilog', $epilog);
         $this->bar = 'no';
         $this->keywords = 'Портфолио';
         $this->meta_desc = 'Портфолио';
         $this->title = 'Портфолио';
-        $portfolios = $this->getPortfolios();
+        $this->sort = 'desc';
+        $portfolios = $this->getPortfolios(false,true);
         $content = view(env('THEME') . '.portfolios_content')->with('portfolios', $portfolios)->render();
         $this->vars =  Arr::add( $this->vars, 'content', $content);
         return $this->renderOutput();
@@ -63,11 +62,20 @@ class PortfoliosController extends SiteController
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($alias=false)
-    {
-        //
+    public function show($alias){
+        $this->bar = 'no';
+        $portfolio = $this->p_rep->one($alias);
+        $portfolio->load('filter');
+        $this->keywords = $portfolio->keywords;
+        $this->meta_desc =  $portfolio->meta_desc;
+        $this->title = $portfolio->title;
+        $this->sort = 'desc';
+        $portfolios =  $this->getPortfolios(Config::get('settings.other_portfolios'), false);
+        $content = view(env('THEME') . '.portfolio_content')->with(['portfolio'=> $portfolio, 'portfolios'=>$portfolios] )->render();
+        $this->vars =  Arr::add( $this->vars, 'content', $content);
+        return $this->renderOutput();
     }
 
     /**
@@ -104,13 +112,5 @@ class PortfoliosController extends SiteController
         //
     }
 
-    protected function getPortfolios()
-    {
-        $portfolios = $this->p_rep->get('*', false, true);
-        if($portfolios){
-            $portfolios->load('filter');
-        }
 
-        return $portfolios;
-    }
 }

@@ -16,7 +16,8 @@
         "laravel/tinker": "^2.6.0",
         "laravel/ui": "2.4.0",
         "lavary/laravel-menu": "^1.8.1",
-      "ext-json": "*"
+      "ext-json": "*",
+      "ext-mysql_xdevapi": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8.2",

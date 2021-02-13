@@ -25,6 +25,7 @@ Route::resource('portfolios', 'PortfoliosController', [
     ]
 ]);
 
+
 Route::resource('articles', 'ArticlesController', [
     'parameters' => [
         'articles'=>'alias'
@@ -33,6 +34,9 @@ Route::resource('articles', 'ArticlesController', [
 
 Route::resource('comment', 'CommentController', ['only'=>['store']]);
 
-Route::get('articles/cat/{cat_alias?}', 'ArticlesController@index')->name('articlesCat');
+Route::get('articles/cat/{cat_alias?}', 'ArticlesController@index')->name('articlesCat')
+    ->where('cat_alias', '[\w]+');
+
+Route::match(['get', 'post'],'/contacts', 'ContactsController@index')->name('contacts');
 
 

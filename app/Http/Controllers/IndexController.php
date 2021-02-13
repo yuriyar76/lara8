@@ -37,17 +37,16 @@ class IndexController extends SiteController
         $this->keywords = 'Pink rio';
         $this->meta_desc = 'Home page';
         $this->title = 'Pink Rio | A strong, powerful and multiporpose';
-        $portfolios = $this->getPortfolio();
+        $this->sort = 'desc';
+        $portfolios = $this->getPortfolios(Config::get('settings.home_portfolio_count'), false);
         $content = view(env('THEME') . '.content')->with('portfolios', $portfolios )->render();
         $this->vars =  Arr::add( $this->vars, 'content', $content);
         $sliderItems = $this->getSliders();
         $slider = view(env('THEME') . '.slider')->with('sliders', $sliderItems )->render();
         $this->vars =  Arr::add( $this->vars, 'slider', $slider);
         $articles = $this->getArticles();
-        //dd($articles);
         $this->contentRightBar = view(env('THEME') . '.indexBar')->with('articles', $articles )->render();
-        $epilog = view(env('THEME') . '.epilog')->render();
-        $this->vars =  Arr::add( $this->vars, 'epilog', $epilog);
+
         return $this->renderOutput();
     }
 
@@ -65,13 +64,7 @@ class IndexController extends SiteController
         return $sliders;
     }
 
-    protected function getPortfolio()
-    {
-        $portfolio = $this->p_rep->get('*', Config::get('settings.home_portfolio_count'));
 
-        return $portfolio;
-
-    }
 
     protected function getArticles()
     {

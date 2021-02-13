@@ -36,8 +36,7 @@ class ArticlesController extends SiteController
     {
 
         $this->bar = 'right';
-        $epilog = view(env('THEME') . '.epilog')->render();
-        $this->vars =  Arr::add( $this->vars, 'epilog', $epilog);
+
         $articles = $this->getArticles($get_cat);
 
         $this->keywords = 'Pink rio articles';
@@ -55,7 +54,6 @@ class ArticlesController extends SiteController
         $this->contentRightBar = view(env('THEME') . '.articlesBar')->with(['comments' => $comments,
             'portfolios' => $portfolios])->render();
 
-
         return $this->renderOutput();
     }
 
@@ -66,8 +64,9 @@ class ArticlesController extends SiteController
             $where = ['category_id', $id];
            // dump($id);
         }
+        $this->sort = 'desc';
         $articles = $this->a_rep->get(['id','user_id', 'category_id', 'title', 'alias',
-            'img', 'desc', 'created_at', 'keywords', 'meta_desc'], false, true, $where );
+            'img', 'desc', 'created_at', 'keywords', 'meta_desc'], false, true, $where, $this->sort );
         if($articles){
            $articles->load('user', 'category', 'comment');   // подгрузка данных из связанных моделей
         }
@@ -75,13 +74,13 @@ class ArticlesController extends SiteController
         return $articles;
         //dd($articles);
     }
-
+/*
     public function getPortfolios($take){
         $portfolios = $this->p_rep->get('*', $take);
         //dump($portfolios);
         return $portfolios;
-        //dd($articles);
-    }
+      //dd($articles);
+    } */
 
     public function getComments($take){
         $comments = $this->c_rep->get('*', $take);
@@ -94,13 +93,8 @@ class ArticlesController extends SiteController
     public function show($alias=false){
 
         $this->bar = 'right';
-        $epilog = view(env('THEME') . '.epilog')->render();
-        $this->vars =  Arr::add( $this->vars, 'epilog', $epilog);
 
         $article = $this->a_rep->one($alias, ['comments'=>true]);  // с подгрузкой доп инфо для получения комментов
-        if($article){
-            $article->img = json_decode( $article->img);
-        }
         $this->keywords = $article->keywords;
         $this->meta_desc =  $article->meta_desc;
         $this->title = $article->title;
@@ -110,7 +104,8 @@ class ArticlesController extends SiteController
         $this->vars =  Arr::add( $this->vars, 'content', $content);
 
         $comments = $this->getComments(Config::get('settings.recent_comments'));
-        $portfolios =  $this->getPortfolios(Config::get('settings.recent_portfolios'));
+        $this->sort = 'desc';
+        $portfolios =  $this->getPortfolios(Config::get('settings.recent_portfolios'),false);
         $this->contentRightBar = view(env('THEME') . '.articlesBar')->with(['comments' => $comments,
             'portfolios' => $portfolios])->render();
 
