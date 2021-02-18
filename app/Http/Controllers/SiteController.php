@@ -27,8 +27,8 @@ class SiteController extends Controller
     protected $title;
     protected $sort;
     protected $avatar;
-    protected $logo;
-    protected $slogan;
+    public $logo;
+    public $slogan;
     protected $contacts_title;
     protected $portfolio_title;
 
@@ -91,7 +91,7 @@ class SiteController extends Controller
 
 
 
-    protected function getMenu()
+    public function getMenu()
     {
        $menu =  $this->m_rep->get();
        $mBuild =  \Menu::make('MyNavBar', function ($m) use ($menu) {

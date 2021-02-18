@@ -54,7 +54,8 @@ abstract class Repo
           }
           return $builder;
       }
-        
+      abort(404);
+
     }
 
 }

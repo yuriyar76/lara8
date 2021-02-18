@@ -1,3 +1,6 @@
+   <?
+   //php dump(phpinfo());
+   ?>
     @if($portfolios && count($portfolios)>0)
         <div id="content-home" class="content group">
             <div class="hentry group">

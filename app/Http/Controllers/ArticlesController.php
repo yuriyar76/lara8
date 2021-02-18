@@ -60,9 +60,11 @@ class ArticlesController extends SiteController
     public function getArticles($alias = false){
         $where = false;
         if ($alias){
-            $id = Category::query()->select('id')->where('alias',$alias)->first()->id;
+            $idc = Category::query()->select('id')->where('alias', $alias)->first();
+            if(!$idc) abort(404);
+            $id = $idc->id;
             $where = ['category_id', $id];
-           // dump($id);
+
         }
         $this->sort = 'desc';
         $articles = $this->a_rep->get(['id','user_id', 'category_id', 'title', 'alias',

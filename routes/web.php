@@ -40,3 +40,6 @@ Route::get('articles/cat/{cat_alias?}', 'ArticlesController@index')->name('artic
 Route::match(['get', 'post'],'/contacts', 'ContactsController@index')->name('contacts');
 
 
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -7,7 +7,7 @@
         <!-- post featured & title -->
         <div class="thumbnail">
             <!-- post title -->
-            <h1 class="post-title"><a href="article.html">{{ $article->title }}</a></h1>
+            <h1 class="post-title"><a href="">{{ $article->title }}</a></h1>
             <!-- post featured -->
             <div class="image-wrap">
                 <img src="{{ asset(env('THEME')) }}/images/articles/{{ $article->img->max }}" alt="{{ $article->title }}"

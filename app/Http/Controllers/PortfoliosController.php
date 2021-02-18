@@ -67,6 +67,9 @@ class PortfoliosController extends SiteController
     public function show($alias){
         $this->bar = 'no';
         $portfolio = $this->p_rep->one($alias);
+        if(!$portfolio){
+            abort(404);
+        }
         $portfolio->load('filter');
         $this->keywords = $portfolio->keywords;
         $this->meta_desc =  $portfolio->meta_desc;

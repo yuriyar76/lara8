@@ -8,8 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.2, user-scalable=yes" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ ($title) ? $title : 'Home page' }}</title>
-    <meta name="description" content="{{ $meta_desc }}">
-    <meta name="keywords" content="{{ $keywords }}">
+    @if(!empty($meta_desc) && !empty($keywords))
+    <meta name="description" content="{{ ($meta_desc) ? $meta_desc : '' }}">
+    <meta name="keywords" content="{{ ($keywords) ?  $keywords : ''}}">
+    @endif;
     <!-- [favicon] begin -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset(env('THEME')) }}/images/favicon.ico" />
     <link rel="icon" type="image/x-icon" href="{{ asset(env('THEME')) }}/images/favicon.ico" />
@@ -79,13 +81,21 @@
 
                 <!-- START LOGO -->
                 <div id="logo" class="group">
-                    <a href="{{ route('home') }}" title="Pink Rio"><img src="{{ asset(env('THEME')) }}/images/{{ $logo }}"
-                                                                        title="" alt="" /></a>
+                    <a href="{{ route('home') }}" title="Pink Rio">
+                    @if(!empty($logo))
+                        <img src="{{ asset(env('THEME')) }}/images/{{ $logo }}" title="" alt="" /></a>
+                    @else
+                        <img src="{{ asset(env('THEME')) }}/images/logo.png" title="" alt="" /></a>
+                    @endif
                 </div>
                 <!-- END LOGO -->
 
                 <div id="sidebar-header" class="group">
-                    {!! $slogan !!}
+                    @if(!empty($slogan))
+                       {!! $slogan !!}
+                    @else
+                        <blockquote class="text-quote-quote">“The one caterpillar does all the work but the butterfly gets all the publicity.”</blockquote>
+                    @endif
                 </div>
                 <div class="clearer"></div>
                 <hr />
