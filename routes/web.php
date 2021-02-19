@@ -40,6 +40,14 @@ Route::get('articles/cat/{cat_alias?}', 'ArticlesController@index')->name('artic
 Route::match(['get', 'post'],'/contacts', 'ContactsController@index')->name('contacts');
 
 
+
+
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['prefix'=>'admin', 'middleware'=>'auth'], function (){
+    Route::get('/', 'Admin\IndexController@index')->name('adminIndex');
+    Route::resource('items', 'Admin\ArticlesController');
+});
