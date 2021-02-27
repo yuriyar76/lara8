@@ -4,6 +4,7 @@
 	{!! $navigation !!}
 @endsection
 
+{{--
 @section('footer')
 	{!! $footer !!}
-@endsection 
+@endsection --}}

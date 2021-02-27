@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -44,4 +45,26 @@ class User extends Authenticatable
     public function comments(){
         return $this->hasMany('App\Models\Comment');
     }
+    public function roles(){
+        return $this->belongsToMany('App\Models\Role', 'role_user');
+    }
+
+    public function canDo($permission, $require = false){
+       if(is_array($permission)){
+            dump($permission);
+       }else{
+            //dump($this->roles);
+           foreach($this->roles as $role){
+               foreach($role->perms as $perm){
+                  // dump($perm->name);
+                    if(Str::is($perm->name, $permission)){
+                        return true;
+                    }
+               }
+
+           }
+       }
+       return false;
+    }
+
 }

@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Lavary\Menu\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -228,6 +229,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Menu'      => Lavary\Menu\Facade::class,
+        "Form" => Collective\Html\FormFacde::class,
+        "Html" => Collective\Html\HtmlFacde::class,
 
     ],
 

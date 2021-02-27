@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 
 
 Route::resource('/', 'IndexController', [
@@ -40,14 +42,12 @@ Route::get('articles/cat/{cat_alias?}', 'ArticlesController@index')->name('artic
 Route::match(['get', 'post'],'/contacts', 'ContactsController@index')->name('contacts');
 
 
-
-
-
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['prefix'=>'admin', 'middleware'=>'auth'], function (){
+
+Route::middleware([Authenticate::class])->prefix('admin')->group(function (){
     Route::get('/', 'Admin\IndexController@index')->name('adminIndex');
     Route::resource('items', 'Admin\ArticlesController');
 });

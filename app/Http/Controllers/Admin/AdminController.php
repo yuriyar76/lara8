@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Auth;
+use App\Models\Category;
+use App\Repositories\CategoriesRepo;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Menu;
@@ -12,6 +14,7 @@ class AdminController extends Controller
 {
     protected $p_rep;
     protected $a_rep;
+    protected $cat_rep;
     protected $user;
     protected $content = false;
     protected $template;
@@ -20,8 +23,8 @@ class AdminController extends Controller
 
     public function __construct()
     {
-        $this->user = Auth::user();
-
+        $cat_rep = new CategoriesRepo(new Category());
+        $this->cat_rep = $cat_rep;
     }
 
     public function renderOutput(){
@@ -42,12 +45,17 @@ class AdminController extends Controller
     public function getMenu(){
 
         return \Menu::make('adminMenu', function ($menu){
-            $menu->add('Статьи', ['route'=>'adminIndex']);
-            $menu->add('Портфолио', ['route'=>'adminIndex']);
-            $menu->add('Меню', ['route'=>'adminIndex']);
-            $menu->add('Пользователи', ['route'=>'adminIndex']);
-            $menu->add('Привелегии', ['route'=>'adminIndex']);
+            $menu->add('Статьи', ['route'=>'items.index']);
+            $menu->add('Портфолио', ['route'=>'items.index']);
+            $menu->add('Меню', ['route'=>'items.index']);
+            $menu->add('Пользователи', ['route'=>'items.index']);
+            $menu->add('Привелегии', ['route'=>'items.index']);
         });
+    }
+
+    protected function getCategories()
+    {
+        return $this->cat_rep->get();
     }
 
 }

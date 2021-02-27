@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Repositories\CategoriesRepo;
 use App\Repositories\MenuRepo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -17,6 +18,7 @@ class SiteController extends Controller
     protected $c_rep; // репозиторий комментов
     protected $cnt_rep; // репозиторий контактов
     protected $m_rep; // репозиторий для хранения объекта меню
+    protected $cat_rep; // репозиторий для хранения категорий
     protected $template; // шаблон
     protected $vars = [];
     protected $bar = false; // признак сайдбара на странице
@@ -35,6 +37,7 @@ class SiteController extends Controller
 
     public function __construct(MenuRepo $m_rep)
     {
+
         $this->m_rep = $m_rep;
         $this->sort = 'desc';
         $this->avatar = ($this->settingSiteTitle())['avatar'];
